@@ -13,7 +13,7 @@ client = OpenAI(
 async def chat_with_gpt(prompt: str) -> str:
     try:
         response = client.chat.completions.create(
-            model="google/gemini-2.5-pro-exp-03-25:free",  # или другую модель
+            model="deepseek/deepseek-chat-v3-0324:free",  # или другую модель
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )
