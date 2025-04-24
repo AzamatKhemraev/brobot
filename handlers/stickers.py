@@ -1,12 +1,13 @@
 from aiogram import Router, types
-from aiogram.filters import ChatTypeFilter
+# from aiogram.filters import ChatTypeFilter
 
 router = Router()
 
 
-@router.message(ChatTypeFilter(chat_type=["private"]))
+@router.message()
 async def get_sticker_id(message: types.Message):
-    if message.sticker:
+    # Проверяем: личный чат и стикер
+    if message.chat.type == "private" and message.sticker:
         file_id = message.sticker.file_id
         emoji = message.sticker.emoji or "🤔"
         await message.reply(
