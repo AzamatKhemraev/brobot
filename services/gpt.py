@@ -18,12 +18,11 @@ async def chat_with_gpt(prompt: str) -> str:
                 {"role": "system", "content": "Ты эрудированный чат бот. Твои ответы должны быть краткими и четкими"},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.5,
-            top_p=0.95
+            temperature=0.7
         )
 
         if not response or not response.choices:
-            return "🤖 Не удалось получить ответ от нейросети."
+            return "🤖 Не удалось получить ответ от нейросети. {response}"
         
     except Exception as e:
         return f"❌ Ошибка при обращении к модели: {e}"
