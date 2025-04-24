@@ -22,7 +22,7 @@ async def chat_with_gpt(prompt: str) -> str:
         )
 
         if not response or not response.choices:
-            return "🤖 Не удалось получить ответ от нейросети. {response}"
-        
+            return f"🤖 Не удалось получить ответ от нейросети.\nRaw: {response.model_dump()}"
+
     except Exception as e:
         return f"❌ Ошибка при обращении к модели: {e}"
