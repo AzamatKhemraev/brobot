@@ -4,19 +4,15 @@ router = Router()
 
 
 @router.message()
-async def get_sticker_id(message: types.Message):
-    print("👀 Сообщение пришло:", message.chat.type)
+async def debug_any_message(message: types.Message):
+    print("🔥 БОТ ПОЛУЧИЛ СООБЩЕНИЕ!")
+    print("➡️ Тип:", message.content_type)
 
-    if message.chat.type == "private" and message.sticker:
-        file_id = message.sticker.file_id
-        emoji = message.sticker.emoji or "🤔"
-
-        print("📦 Получен стикер:", file_id)
-
-        await message.reply(
-            f"📎 File ID стикера: `{file_id}`\nЭмодзи: {emoji}",
-            parse_mode="Markdown"
-        )
+    if message.sticker:
+        print("🎯 Это стикер!")
+        await message.reply(f"🧷 file_id: `{message.sticker.file_id}`", parse_mode="Markdown")
+    else:
+        await message.reply("📭 Это не стикер.")
 
 
 def register_handlers(dp):
