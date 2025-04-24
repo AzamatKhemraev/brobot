@@ -21,6 +21,9 @@ async def chat_with_gpt(prompt: str) -> str:
             temperature=0.5,
             top_p=0.95
         )
-        return response.choices[0].message.content.strip()
+
+        if not response or not response.choices:
+            return "🤖 Не удалось получить ответ от нейросети."
+        
     except Exception as e:
         return f"❌ Ошибка при обращении к модели: {e}"
