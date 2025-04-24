@@ -20,7 +20,6 @@ async def mention_gpt_reply(message: types.Message):
 # эта функция отвечает GPT "в фоне"
 async def respond_with_gpt(message: types.Message):
     try:
-        await message.bot.send_chat_action(message.chat.id, "typing")
         gpt_reply = await chat_with_gpt(message.text)
         await message.reply(gpt_reply)
     except Exception as e:
