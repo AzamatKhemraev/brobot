@@ -1,12 +1,11 @@
 from aiogram import Router, types
-# from aiogram.filters import ChatTypeFilter
 
 router = Router()
 
 
 @router.message()
 async def get_sticker_id(message: types.Message):
-    # Проверяем: личный чат и стикер
+    # Проверка: сообщение в ЛС и содержит стикер
     if message.chat.type == "private" and message.sticker:
         file_id = message.sticker.file_id
         emoji = message.sticker.emoji or "🤔"
