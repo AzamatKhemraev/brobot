@@ -1,18 +1,24 @@
 from aiogram import Router, types
-import asyncio
+from services.gpt import chat_with_gpt
+# import asyncio
 
 router = Router()
 
+BOT_ALIASES = ["@bro", "@brobot", "bro", "brobot"]
+
 
 @router.message()
-async def reply_if_mentioned(message: types.Message):
-    text = message.text or ""
+async def mention_gpt_reply(message: types.Message):
+    text = (message.text or "").lower()
 
-    # Проверка по имени напрямую
-    if "@bro" in text.lower() or "brobot" in text.lower():
+    # Проверяем, есть ли упоминание
+    if any(alias in text for alias in BOT_ALIASES):
         await message.bot.send_chat_action(message.chat.id, "typing")
-        await asyncio.sleep(1)
-        await message.reply("👋 Я тут! Ты звал меня?")
+
+        # GPT-ответ через OpenRouter
+        gpt_reply = await chat_with_gpt(text)
+
+        await message.reply(gpt_reply)
 
 
 def register_handlers(dp):

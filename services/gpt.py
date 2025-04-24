@@ -14,14 +14,12 @@ async def chat_with_gpt(prompt: str) -> str:
     try:
         response = client.chat.completions.create(
             model="deepseek/deepseek-r1:free",  # или другую модель
-            messages=[{"role": "user", "content": prompt}],
+            messages=[
+                {"role": "system", "content": "Ты дружелюбный и немного дерзкий Telegram-бот Bro. Отвечай с юмором и по делу."},
+                {"role": "user", "content": prompt}
+            ],
             temperature=0.7
         )
-        content = response.choices[0].message.content if response.choices else None
-
-        if content:
-            return content.strip()
-        else:
-            return "⚠️ Ответ от модели не получен."
+        return response.choices[0].message.content.strip()
     except Exception as e:
         return f"❌ Ошибка при обращении к модели: {e}"
