@@ -5,14 +5,10 @@ router = Router()
 
 @router.message()
 async def debug_any_message(message: types.Message):
-    print("🔥 БОТ ПОЛУЧИЛ СООБЩЕНИЕ!")
-    print("➡️ Тип:", message.content_type)
+    print("БОТ ПОЛУЧИЛ СООБЩЕНИЕ!")
+    print("Тип:", message.content_type)
 
-    if message.sticker:
-        print("🎯 Это стикер!")
-        await message.reply(f"🧷 file_id: `{message.sticker.file_id}`", parse_mode="Markdown")
-    else:
-        await message.reply("📭 Это не стикер.")
+    await message.reply(f"📎 file_id: `{message.sticker.file_id}`", parse_mode="Markdown")
 
 
 def register_handlers(dp):
