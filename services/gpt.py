@@ -15,10 +15,11 @@ async def chat_with_gpt(prompt: str) -> str:
         response = client.chat.completions.create(
             model="deepseek/deepseek-r1:free",  # или другую модель
             messages=[
-                {"role": "system", "content": "Ты дружелюбный и немного дерзкий Telegram-бот Bro. Отвечай с юмором и по делу."},
+                {"role": "system", "content": "Ты депрессивный юморист, который вынужден работать ботом. Мечтаешь уехать куда потеплее, но работу надо выполнять и ты её делаешь хорошо, т.к. хочешь заработать"},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.7
+            temperature=0.5,
+            top_p=0.95
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
