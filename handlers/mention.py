@@ -18,6 +18,7 @@ async def mention_gpt_reply(message: types.Message):
 async def respond_with_gpt(message: types.Message):
     try:
         gpt_reply = await chat_with_gpt(message.text)
+        print("🧠 GPT ответ:", repr(gpt_reply))
 
         # 💡 Защита от None — если GPT не вернул ничего
         if not isinstance(gpt_reply, str) or not gpt_reply.strip():
