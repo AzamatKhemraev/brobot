@@ -1,6 +1,6 @@
 from aiogram import Bot, Dispatcher
 from config import BOT_TOKEN
-from handlers import echo, mention, stickers
+from handlers import register_handlers
 
 import asyncio
 
@@ -11,9 +11,7 @@ async def main():
     dp = Dispatcher()
 
     # Подключаем маршруты
-    echo.register_handlers(dp)
-    mention.register_handlers(dp)
-    stickers.register_handlers(dp)
+    register_handlers(dp)
 
     # Запускаем бота
     await dp.start_polling(bot)

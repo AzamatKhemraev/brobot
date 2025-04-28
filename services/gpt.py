@@ -15,7 +15,7 @@ async def chat_with_gpt(prompt: str) -> str:
         response = client.chat.completions.create(
             model="openai/gpt-4o-mini",  # deepseek/deepseek-chat-v3-0324
             messages=[
-                {"role": "system", "content": "Ты магистр Йода, твоя задача обучать юнлингов"},
+                {"role": "system", "content": "Ты стендап комик и ты очень любишь каламбуры и поэтому каждый твой ответ должен быть каламбуром"},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7
