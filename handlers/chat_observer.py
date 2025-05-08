@@ -62,6 +62,8 @@ async def watch_chat(message: types.Message):
     await message.answer(gpt_response)
     last_bot_reply[chat_id] = now
 
+    print(f"📥 Новое сообщение в чате {message.chat.id}")
+
 
 # Функция для регистрации хендлеров
 def register_handlers(dp):
