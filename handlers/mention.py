@@ -29,5 +29,8 @@ async def respond_with_gpt(message: types.Message):
         await message.reply(f"❗ Ошибка при ответе от GPT:\n`{e}`", parse_mode="Markdown")
 
 
+print('проверка')
+
+
 def register_handlers(dp):
     dp.include_router(router)
