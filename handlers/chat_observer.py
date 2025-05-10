@@ -30,6 +30,7 @@ async def watch_chat(message: types.Message):
     # Инициализация очереди сообщений
     if chat_id not in chat_activity:
         chat_activity[chat_id] = deque(maxlen=MAX_MESSAGES)
+    print(chat_activity)
 
     chat_activity[chat_id].append((message.text or "", now))
 
