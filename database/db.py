@@ -12,16 +12,17 @@ async def get_db():
 
 # Инициализация таблиц
 async def init_db():
-    async with await get_db() as db:
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                chat_id INTEGER NOT NULL,
-                username TEXT,
-                full_name TEXT,
-                joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                UNIQUE(user_id, chat_id)
-            );
-        """)
-        await db.commit()
+    db = await aiosqlite.connect(DB_PATH)
+    await db.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            chat_id INTEGER NOT NULL,
+            username TEXT,
+            full_name TEXT,
+            joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(user_id, chat_id)
+        );
+    """)
+    await db.commit()
+    await db.close()
