@@ -1,6 +1,6 @@
 from aiogram import Router, types
 from aiogram.filters import Command
-from services.context import get_history
+from services.context import get_history, message_history
 
 router = Router()
 
@@ -35,11 +35,10 @@ async def history_command(message: types.Message):
 @router.message(Command("forget"))
 async def forget_command(message: types.Message):
     chat_id = message.chat.id
-    history = get_history(chat_id)
 
-    if chat_id in history:
-        history[chat_id].clear()
-        await message.reply("¯\\(°_o)/¯ История чата очищена.")
+    if chat_id in message_history:
+        message_history[chat_id].clear()
+        await message.reply("История чата очищена.")
     else:
         await message.reply("¯\\(°_o)/¯ История сообщений пуста.")
 
