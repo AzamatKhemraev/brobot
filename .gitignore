@@ -20,3 +20,8 @@ env/
 *.bak
 *.swp
 *.tmp
+
+# База данных SQLite
+*.db
+*.sqlite3
+*.sqlite
