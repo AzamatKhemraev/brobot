@@ -5,7 +5,7 @@ import asyncio
 
 router = Router()
 
-BOT_ALIASES = ["@bro", "@brobot", "bro", "brobot", "бро"]
+BOT_ALIASES = ["@bro", "@brobot", "bro", "brobot"]
 
 
 @router.message()
