@@ -11,7 +11,7 @@ router = Router()
 chat_activity = {}  # chat_id: deque[(text, timestamp)]
 
 # Ограничения
-MAX_MESSAGES = 5
+MAX_MESSAGES = 2
 TIME_WINDOW = 60  # секунд
 COOLDOWN = 600    # бот не будет писать чаще, чем 1 раз в 10 мин
 
@@ -21,8 +21,8 @@ last_bot_reply = {}  # chat_id: datetime
 @router.message()
 async def watch_chat(message: types.Message):
     # Только групповые чаты
-    if message.chat.type not in ["group", "supergroup"]:
-        return
+    # if message.chat.type not in ["group", "supergroup"]:
+    #     return
 
     chat_id = message.chat.id
     now = datetime.datetime.utcnow()
@@ -62,7 +62,7 @@ async def watch_chat(message: types.Message):
     await message.answer(gpt_response)
     last_bot_reply[chat_id] = now
 
-    print(f"📥 Новое сообщение в чате {message.chat.id}")
+print(f"📥 Новое сообщение в чате {message.chat.id}")
 
 
 # Функция для регистрации хендлеров
