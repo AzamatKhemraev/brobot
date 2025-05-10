@@ -10,8 +10,6 @@ router = Router()
 async def echo_cmd(message: types.Message):
     await message.reply("Дич сук")
 
-    print('asdad')
-
 
 # Функция для регистрации хендлеров
 def register_handlers(dp):

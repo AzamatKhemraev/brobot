@@ -29,9 +29,19 @@ async def history_command(message: types.Message):
     if len(response) > 4000:
         response = response[:500] + "\n\n... (обрезано)"
 
-    print('response')
-
     await message.reply(response)
+
+
+@router.message(Command("forget"))
+async def forget_command(message: types.Message):
+    chat_id = message.chat.id
+    history = get_history(chat_id)
+
+    if chat_id in history:
+        history[chat_id].clear()
+        await message.reply("¯\\(°_o)/¯ История чата очищена.")
+    else:
+        await message.reply("¯\\(°_o)/¯ История сообщений пуста.")
 
 
 # Функция для регистрации хендлеров
