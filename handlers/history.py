@@ -27,7 +27,7 @@ async def history_command(message: types.Message):
 
     # Ограничение телеги: 4096 символов
     if len(response) > 4000:
-        response = response[:4000] + "\n\n... (обрезано)"
+        response = response[:500] + "\n\n... (обрезано)"
 
     await message.reply(response)
 
