@@ -18,6 +18,7 @@ async def scan_command(message: types.Message):
     await add_user(
         user_id=sender.id,
         chat_id=message.chat.id,
+        chat_type=message.chat.type,
         username=sender.username or "",
         full_name=sender.full_name
     )

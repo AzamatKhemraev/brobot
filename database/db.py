@@ -18,6 +18,7 @@ async def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             chat_id INTEGER NOT NULL,
+            chat_type TEXT,
             username TEXT,
             full_name TEXT,
             joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
