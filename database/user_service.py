@@ -3,14 +3,14 @@ import aiosqlite
 
 
 # Добавить пользователя в базу, если ещё не был
-async def add_user(user_id: int, chat_id: int, username: str, full_name: str):
+async def add_user(user_id: int, chat_id: int, chat_type: str, username: str, full_name: str):
     db = await aiosqlite.connect(DB_PATH)
     await db.execute(
         """
-        INSERT OR IGNORE INTO users (user_id, chat_id, username, full_name)
-        VALUES (?, ?, ?, ?)
+        INSERT OR IGNORE INTO users (user_id, chat_id, chat_type, username, full_name)
+        VALUES (?, ?, ?, ?, ?)
         """,
-        (user_id, chat_id, username, full_name)
+        (user_id, chat_id, chat_type, username, full_name)
     )
     await db.commit()
     await db.close()
