@@ -29,6 +29,8 @@ async def history_command(message: types.Message):
     if len(response) > 4000:
         response = response[:500] + "\n\n... (обрезано)"
 
+    print('response')
+
     await message.reply(response)
 
 
