@@ -1,10 +1,11 @@
 from aiogram import Router, types
 from services.gpt import chat_with_gpt
+from services.context import add_to_history, get_history
 import asyncio
 
 router = Router()
 
-BOT_ALIASES = ["@bro", "@brobot", "bro", "brobot"]
+BOT_ALIASES = ["@bro", "@brobot", "bro", "brobot", "бро"]
 
 
 @router.message()
@@ -13,11 +14,28 @@ async def mention_gpt_reply(message: types.Message):
 
     if any(alias in text for alias in BOT_ALIASES):
         asyncio.create_task(respond_with_gpt(message))
+    else:
+        # Сохраняем просто как user-реплику
+        add_to_history(message.chat.id, "user", message.text or "")
 
 
 async def respond_with_gpt(message: types.Message):
     try:
-        gpt_reply = await chat_with_gpt(message.text)
+        chat_id = message.chat.id
+
+        # Добавим текущий вопрос пользователя в историю
+        add_to_history(chat_id, "user", message.text)
+
+        # Получаем последние 50 сообщений
+        history = get_history(chat_id)
+
+        # Добавим system prompt в начало
+        prompt = [{"role": "system", "content": "Ты робот помошник. Твоя задача коротко и по существу отвечать на вопросы. Используй нейтральный стиль общения."}] + history
+
+        gpt_reply = await chat_with_gpt(prompt)
+
+        # Сохраняем ответ в историю
+        add_to_history(chat_id, "assistant", gpt_reply)
 
         # 💡 Защита от None — если GPT не вернул ничего
         if not isinstance(gpt_reply, str) or not gpt_reply.strip():
