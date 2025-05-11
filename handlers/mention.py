@@ -93,3 +93,7 @@ def format_history_prompt(history):
     )
 
     return intro + dialogue
+
+
+def register_handlers(dp):
+    dp.include_router(router)
