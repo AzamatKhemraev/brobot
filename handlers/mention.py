@@ -1,7 +1,7 @@
 from aiogram import Router, types
 from services.gpt import chat_with_gpt
 from services.context import add_to_history, get_history
-from database.user_service import get_all_users
+from database.user_service import get_users_by_chat
 import asyncio
 
 router = Router()
@@ -53,7 +53,7 @@ async def respond_with_gpt(message: types.Message):
         history = get_history(chat_id)
 
         # Получаем пользователей чата
-        users = await get_all_users(chat_id)
+        users = await get_users_by_chat(chat_id)
 
         # Формируем пролог и историю в виде текста
         prompt_text = format_history_prompt(history, users)
