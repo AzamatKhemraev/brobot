@@ -20,7 +20,7 @@ async def add_user(user_id: int, chat_id: int, chat_type: str, username: str, fu
 async def get_users_by_chat(chat_id: int):
     db = await aiosqlite.connect(DB_PATH)
     cursor = await db.execute(
-        "SELECT * FROM users WHERE chat_id = ?",
+        "SELECT user_id, username, full_name FROM users WHERE chat_id = ?",
         (chat_id,)
     )
     rows = await cursor.fetchall()

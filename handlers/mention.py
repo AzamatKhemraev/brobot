@@ -1,6 +1,7 @@
 from aiogram import Router, types
 from services.gpt import chat_with_gpt
 from services.context import add_to_history, get_history
+from database.user_service import get_all_users
 import asyncio
 
 router = Router()
@@ -51,12 +52,15 @@ async def respond_with_gpt(message: types.Message):
         # Получаем последние 50 сообщений
         history = get_history(chat_id)
 
+        # Получаем пользователей чата
+        users = await get_all_users(chat_id)
+
         # Формируем пролог и историю в виде текста
-        prompt_text = format_history_prompt(history)
+        prompt_text = format_history_prompt(history, users)
 
         # Отправка GPT
         gpt_reply = await chat_with_gpt([
-            {"role": "system", "content": "Ты робот помощник. Твоя задача коротко и по существу отвечать на вопросы. Используй нейтральный стиль общения."},
+            {"role": "system", "content": "Ты — дружелюбный ИИ, который помогает участникам чата. Они — твои друзья. Пиши кратко, понятно, дружелюбно, по делу."},
             {"role": "user", "content": prompt_text}
         ])
 
@@ -79,13 +83,13 @@ async def respond_with_gpt(message: types.Message):
         await message.reply(f"❗ Ошибка при ответе от GPT:\n`{e}`", parse_mode="Markdown")
 
 
-def format_history_prompt(history):
+def format_history_prompt(history, users):
     # Собираем список участников
-    unique_users = {msg["user_id"]: msg for msg in history if msg["role"] == "user"}
+    # unique_users = {msg["user_id"]: msg for msg in history if msg["role"] == "user"}
 
-    intro = "Это групповой чат. Участники:\n" + "\n".join(
-        f"- {v['full_name']} (@{v['username']})" if v['username'] else f"- {v['full_name']}"
-        for v in unique_users.values()
+    intro = "Это групповой чат лучших друзей и ты один из них, со всеми разговаривай на ты. Участники:\n" + "\n".join(
+        f"- {u['full_name']} (@{u['username']})" if u['username'] else f"- {u['full_name']}"
+        for u in users
     ) + "\n\nИстория сообщений:\n"
 
     dialogue = "\n".join(
