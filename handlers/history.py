@@ -16,12 +16,18 @@ async def history_command(message: types.Message):
 
     # Форматируем историю
     formatted = []
-    for i, entry in enumerate(history[-20:], 1):  # выводим только последние 20 сообщений
-        role = "👤" if entry["role"] == "user" else "🤖"
+    for i, entry in enumerate(history[-20:], 1):  # последние 20 сообщений
+        if entry["role"] == "user":
+            user_label = f"{entry['full_name']} (@{entry['username']})" if entry["username"] else entry["full_name"]
+            icon = "👤"
+        else:
+            user_label = entry["full_name"]
+            icon = "🤖"
+
         content = entry["content"].strip()
         if not content:
             continue
-        formatted.append(f"{i}. {role} {content}")
+        formatted.append(f"{i}. {icon} {user_label}:\n{content}")
 
     response = "\n\n".join(formatted)
 
