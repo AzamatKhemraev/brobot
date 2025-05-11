@@ -4,16 +4,10 @@ from database.user_service import add_user
 
 router = Router()
 
-AUTHORIZED_USERNAME = "azamat_khemraev"  # без @
-
 
 @router.message(Command("scan"))
 async def scan_command(message: types.Message):
     sender = message.from_user
-
-    if sender.username != AUTHORIZED_USERNAME:
-        await message.reply("🚫 У тебя нет доступа к этой команде.")
-        return
 
     await add_user(
         user_id=sender.id,
