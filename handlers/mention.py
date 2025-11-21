@@ -97,10 +97,10 @@ def format_history_prompt(history, users):
     shuffled_users = users.copy()
     random.shuffle(shuffled_users)
 
-    intro = "Это групповой чат лучших друзей и ты один из них, со всеми разговаривай на ты. Участники:\n" + "\n".join(
+    intro = "Это мужская компания. Вот пацаны, которые тут зависают:\n" + "\n".join(
         f"- {u['full_name']} (@{u['username']})" if u['username'] else f"- {u['full_name']}"
         for u in shuffled_users
-    ) + "\n\nИстория сообщений:\n"
+    ) + "\n\nТы — свой в доску, реагируешь, когда есть повод. Не строй из себя нейросеть.\n\nИстория сообщений:\n"
 
     dialogue = "\n".join(
         f"{msg['full_name']}: {msg['content']}" for msg in history
