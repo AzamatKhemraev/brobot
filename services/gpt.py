@@ -13,7 +13,7 @@ client = OpenAI(
 async def chat_with_gpt(prompt: str) -> str:
     try:
         response = client.chat.completions.create(
-            model="openai/gpt-4o-mini",  # deepseek/deepseek-chat-v3-0324
+            model="deepseek/deepseek-chat-v3.1",  # deepseek/deepseek-chat-v3-0324
             messages=prompt,
             temperature=0.7
         )
