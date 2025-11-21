@@ -3,6 +3,7 @@ from services.gpt import chat_with_gpt
 from services.context import add_to_history, get_history
 from database.user_service import get_users_by_chat
 import asyncio
+import random
 
 router = Router()
 
@@ -92,12 +93,13 @@ async def respond_with_gpt(message: types.Message):
 
 
 def format_history_prompt(history, users):
-    # Собираем список участников
-    # unique_users = {msg["user_id"]: msg for msg in history if msg["role"] == "user"}
+    # Перемешиваем список участников
+    shuffled_users = users.copy()
+    random.shuffle(shuffled_users)
 
     intro = "Это групповой чат лучших друзей и ты один из них, со всеми разговаривай на ты. Участники:\n" + "\n".join(
         f"- {u['full_name']} (@{u['username']})" if u['username'] else f"- {u['full_name']}"
-        for u in users
+        for u in shuffled_users
     ) + "\n\nИстория сообщений:\n"
 
     dialogue = "\n".join(
