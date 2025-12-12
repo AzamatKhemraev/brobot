@@ -8,7 +8,10 @@ router = Router()
 # Обработка команды /echo
 @router.message(Command("echo"))
 async def echo_cmd(message: types.Message):
-    await message.reply("Дич сук")
+    await message.reply(
+        "||Дич сук||",
+        parse_mode="MarkdownV2"
+    )
 
 
 # Функция для регистрации хендлеров
