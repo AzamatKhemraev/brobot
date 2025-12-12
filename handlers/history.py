@@ -18,10 +18,10 @@ async def history_command(message: types.Message):
     formatted = []
     for i, entry in enumerate(history[-20:], 1):  # последние 20 сообщений
         if entry["role"] == "user":
-            user_label = f"{entry['full_name']}" if entry["username"] else entry["full_name"]
+            user_label = f"{entry['display_name']}"
             icon = "👤"
         else:
-            user_label = entry["full_name"]
+            user_label = entry["display_name"]
             icon = "🤖"
 
         content = (entry["content"] or "").strip()

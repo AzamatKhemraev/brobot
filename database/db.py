@@ -22,6 +22,8 @@ async def init_db():
             username TEXT,
             full_name TEXT,
             joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            display_name TEXT,
+            name_note TEXT,
             UNIQUE(user_id, chat_id)
         );
     """)

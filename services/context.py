@@ -4,11 +4,10 @@ from collections import defaultdict, deque
 message_history = defaultdict(lambda: deque(maxlen=50))  # 50 последних сообщений на чат
 
 
-def add_to_history(chat_id: int, user_id: int, username: str, full_name: str, role: str, content: str):
+def add_to_history(chat_id: int, user_id: int, display_name: str, role: str, content: str):
     message_history[chat_id].append({
         "user_id": user_id,
-        "username": username,
-        "full_name": full_name,
+        "display_name": display_name,
         "role": role,
         "content": content
     })

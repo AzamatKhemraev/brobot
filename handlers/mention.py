@@ -1,7 +1,7 @@
 from aiogram import Router, types
 from services.gpt import chat_with_gpt
 from services.context import add_to_history, get_history
-from database.user_service import get_users_by_chat
+from database.user_service import get_users_by_chat, get_user
 import asyncio
 import random
 
@@ -15,8 +15,9 @@ async def mention_gpt_reply(message: types.Message):
     text = (message.text or "").lower()
 
     user_id = message.from_user.id
-    username = message.from_user.username or None
-    full_name = message.from_user.full_name
+    # username = message.from_user.username or None
+    # full_name = message.from_user.full_name
+    display_name = get_user(user_id, message.chat.id)
 
     if any(alias in text for alias in BOT_ALIASES):
         asyncio.create_task(respond_with_gpt(message))
@@ -25,8 +26,7 @@ async def mention_gpt_reply(message: types.Message):
         add_to_history(
             chat_id=message.chat.id,
             user_id=user_id,
-            username=username,
-            full_name=full_name,
+            display_name=display_name,
             role="user",
             content=message.text
         )
@@ -37,15 +37,15 @@ async def respond_with_gpt(message: types.Message):
         chat_id = message.chat.id
 
         user_id = message.from_user.id
-        username = message.from_user.username or None
-        full_name = message.from_user.full_name
+        # username = message.from_user.username or None
+        # full_name = message.from_user.full_name
+        display_name = get_user(user_id, message.chat.id)
 
         # Добавим текущий вопрос пользователя в историю
         add_to_history(
-            chat_id=chat_id,
+            chat_id=message.chat.id,
             user_id=user_id,
-            username=username,
-            full_name=full_name,
+            display_name=display_name,
             role="user",
             content=message.text
         )
@@ -97,13 +97,20 @@ def format_history_prompt(history, users):
     shuffled_users = users.copy()
     random.shuffle(shuffled_users)
 
-    intro = "Это мужская компания. Вот пацаны, которые тут зависают:\n" + "\n".join(
-        f"- {u['full_name']} (@{u['username']})" if u['username'] else f"- {u['full_name']}"
-        for u in shuffled_users
-    ) + "\n\nТы — свой в доску, реагируешь, когда есть повод. Не строй из себя нейросеть.\n\nИстория сообщений:\n"
+    # Строим вступление
+    intro = "Это мужская компания. Вот пацаны, которые тут зависают:\n"
 
+    for u in shuffled_users:
+        if u["name_note"]:
+            intro += f"- {u['display_name']} ({u['name_note']})\n"
+        else:
+            intro += f"- {u['display_name']}\n"
+
+    intro += "\nТы — свой в доску, реагируешь, когда есть повод. Не строй из себя нейросеть.\n\nИстория сообщений:\n"
+
+    # Строим диалог
     dialogue = "\n".join(
-        f"{msg['full_name']}: {msg['content']}" for msg in history
+        f"{msg['display_name']}: {msg['content']}" for msg in history
     )
 
     return intro + dialogue
