@@ -25,7 +25,16 @@ async def get_users_by_chat(chat_id: int):
     )
     rows = await cursor.fetchall()
     await db.close()
-    return [{"user_id": row[0], "username": row[1], "full_name": row[2], "display_name": row[3], "name_note": row[4]} for row in rows]
+    return [
+        {
+            "user_id": row[0],
+            "username": row[1],
+            "full_name": row[2],
+            "display_name": row[3],
+            "name_note": row[4]
+        }
+        for row in rows
+    ]
 
 
 # Получить одного пользователя
