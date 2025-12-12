@@ -17,7 +17,8 @@ async def mention_gpt_reply(message: types.Message):
     user_id = message.from_user.id
     # username = message.from_user.username or None
     # full_name = message.from_user.full_name
-    display_name = get_user(user_id, message.chat.id)
+    user = await get_user(user_id, message.chat.id)
+    display_name = user["display_name"]
 
     if any(alias in text for alias in BOT_ALIASES):
         asyncio.create_task(respond_with_gpt(message))
@@ -39,7 +40,8 @@ async def respond_with_gpt(message: types.Message):
         user_id = message.from_user.id
         # username = message.from_user.username or None
         # full_name = message.from_user.full_name
-        display_name = await get_user(user_id, message.chat.id)
+        user = await get_user(user_id, message.chat.id)
+        display_name = user["display_name"]
 
         # Добавим текущий вопрос пользователя в историю
         add_to_history(
