@@ -77,8 +77,7 @@ async def respond_with_gpt(message: types.Message):
         add_to_history(
             chat_id=chat_id,
             user_id=0,
-            username=None,
-            full_name="🤖",
+            display_name="🤖brobot",
             role="assistant",
             content=gpt_reply
         )
