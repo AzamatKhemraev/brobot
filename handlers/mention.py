@@ -39,7 +39,7 @@ async def respond_with_gpt(message: types.Message):
         user_id = message.from_user.id
         # username = message.from_user.username or None
         # full_name = message.from_user.full_name
-        display_name = get_user(user_id, message.chat.id)
+        display_name = await get_user(user_id, message.chat.id)
 
         # Добавим текущий вопрос пользователя в историю
         add_to_history(
@@ -77,7 +77,7 @@ async def respond_with_gpt(message: types.Message):
         add_to_history(
             chat_id=chat_id,
             user_id=0,
-            display_name="🤖brobot",
+            display_name="brobot",
             role="assistant",
             content=gpt_reply
         )
